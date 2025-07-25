@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>iMessage - 拉黑剧情对话</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #cceeee;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .phone-wrapper {
+      width: 360px;
+      height: 640px;
+      background-color: #e0f7f7;
+      display: flex;
+      flex-direction: column;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      border: 1px solid #aaa;
+    }
+
+    .top-bar {
+      background-color: #d0f0f0;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #b2e2e2;
+    }
+
+    .contact-name {
+      font-weight: 600;
+      font-size: 16px;
+      color: #004d4d;
+    }
+
+    .delivery-status {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .chat-container {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      margin: 4px 0;
+      align-self: flex-end;
+      background-color: #30cfcf;
+      color: white;
+      font-size: 14px;
+      word-wrap: break-word;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .bubble-left {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      margin: 8px 0;
+      align-self: flex-start;
+      background-color: #f1f0f0;
+      color: #000;
+      font-size: 14px;
+      word-wrap: break-word;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .not-delivered-tag {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+      text-align: right;
+      align-self: flex-end;
+    }
+
+    .input-bar {
+      display: flex;
+      padding: 8px;
+      background-color: #f9ffff;
+      border-top: 1px solid #b2e2e2;
+    }
+
+    .input-bar input {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 18px;
+      border: 1px solid #a0dede;
+      outline: none;
+      background-color: #e6fafa;
+    }
+
+    .input-bar button {
+      margin-left: 8px;
+      padding: 8px 14px;
+      background-color: #30cfcf;
+      color: white;
+      font-size: 14px;
+      border: none;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .input-bar button:hover {
+      background-color: #25b3b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-wrapper">
+    <div class="top-bar">
+      <div class="contact-name">林然妈妈 👩</div>
+      <div class="delivery-status">Not Delivered</div>
+    </div>
+
+    <div class="chat-container" id="chat">
+
+      <!-- 妈妈最后一句 -->
+      <div class="bubble-left">我有了新的生活，以后互不打扰。</div>
+
+      <!-- 爸爸的信息 -->
+      <div class="bubble">他昨天问我：“妈妈是不是不要我了？”</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">我说不是，你只是去很远的地方工作。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">他画了一幅画，画的是你和他在海边。我放在冰箱上了。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">幼儿园老师说他最近经常发呆，看着门口。等你回来。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">你知道他开始写字了嘛？他把“MAMA”写在了拼图后面。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">我没有阻止他想你。也不会。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">只是，我不知道还能不能代替你去解释，你为什么不回复他。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">他生日快到了。你要视频打个招呼吗？就算1分钟也好。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">我会把蛋糕分一块给你。他说：“妈妈那块我先帮她吃。”</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+
+      <div class="bubble">你可以不想见我，但他没有做错什么。</div>
+      <div class="not-delivered-tag">Not Delivered</div>
+    </div>
+
+    <div class="input-bar">
+      <input type="text" id="inputMessage" placeholder="iMessage">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('inputMessage');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chat = document.getElementById('chat');
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerText = text;
+
+      const tag = document.createElement('div');
+      tag.className = 'not-delivered-tag';
+      tag.innerText = 'Not Delivered';
+
+      chat.appendChild(bubble);
+      chat.appendChild(tag);
+
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
